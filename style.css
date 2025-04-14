@@ -1,0 +1,1141 @@
+/* --- Reset Básico e Configurações Globais --- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300; /* Poppins Light */
+    line-height: 1.8; /* Increased */
+    background-color: #fdf9f7;
+    background-image: linear-gradient(to bottom, #fdf9f7 0%, #fcf5f1 100%);
+    color: #4B3832; /* Marrom escuro para texto principal */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden; /* Previne scroll horizontal */
+    -webkit-font-smoothing: antialiased; /* Melhora renderização da fonte */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Paleta de Cores e Fontes (Variáveis CSS) --- */
+:root {
+    --primary-brown: #6F4E37;
+    --secondary-red: #A0522D;
+    --accent-red: #B85C38;
+    --dark-text: #4B3832;
+    --light-text: #FFFCFA;
+    --body-bg: #fdf9f7;
+    --card-bg: #FFFFFF;
+    --border-color: #DDCAC2;
+    --link-hover: #8B4513;
+    --hover-bg-light: #f8f4f1;
+    --paragraph-hover-bg: transparent;
+    --timeline-line: #d3c1b7;
+    --timeline-dot-bg: #fff;
+    --timeline-dot-border: var(--primary-brown);
+    --timeline-dot-active-bg: var(--primary-brown);
+    --timeline-date-color: #7a6a62;
+    --timeline-date-active-color: var(--primary-brown); /* Active date color */
+    --timeline-gap: 30px;
+    --separator-color: #d3c1b7; /* Cor para o novo separador */
+
+    --font-body: 'Poppins', sans-serif;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+
+    --header-transition-bg: background-color 0.3s ease-in-out;
+    --transition-fast: 0.2s ease-out;
+    --transition-medium: 0.35s ease-out;
+    --transition-slow: 0.5s ease-out;
+}
+
+/* --- Base Animation Styles --- */
+article, .team-intro, .team-member, .timeline-slider, .carousel,
+article h2, article h3, article ul, article img.featured-image, article img.float-left, article p:not([class*="team-member"])
+{
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.6s var(--transition-slow), transform 0.5s var(--transition-slow);
+}
+article.is-visible, .team-intro.is-visible, .team-member.is-visible, .timeline-slider.is-visible, .carousel.is-visible,
+article.is-visible h2, article.is-visible h3, article.is-visible ul, article.is-visible img.featured-image, article.is-visible img.float-left, article.is-visible p
+{
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Stagger team members */
+.team-member { transition-delay: calc(var(--order, 0) * 80ms); }
+
+/* Stagger list items */
+article ul li {
+    opacity: 0;
+    transform: translateX(-15px);
+    /* Transitions base para hover e visibilidade */
+    transition: opacity 0.4s var(--transition-medium),
+                transform 0.4s var(--transition-medium),
+                background-color 0.25s var(--transition-fast);
+    /* Delay calculado via JS/CSS var */
+    transition-delay: calc(var(--order, 0) * 60ms);
+    /* Estilos base de lista */
+    padding-left: 2.2em;
+    position: relative;
+    margin-bottom: 1.2em;
+    font-weight: var(--font-weight-regular);
+    border-radius: 4px;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    padding-right: 0.6em;
+}
+article ul li.li-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* --- Tipografia --- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-body);
+    color: var(--primary-brown);
+    margin-bottom: 0.9em;
+    line-height: 1.35;
+    font-weight: var(--font-weight-semibold);
+}
+
+h1 { font-size: 2.4rem; margin-bottom: 0.6em; }
+h2 { font-size: 1.75rem; margin-top: 2.2em; margin-bottom: 1.1em; padding-bottom: 0.6em; border-bottom: 1px solid var(--border-color); }
+h3 { font-size: 1.3rem; font-weight: var(--font-weight-medium); color: var(--secondary-red); }
+h4 { font-size: 1.1rem; font-weight: var(--font-weight-medium); }
+
+/* Melhoria Geral: Hover sutil em títulos */
+h2:hover i, h3:hover i {
+    transform: scale(1.1) rotate(-5deg);
+    color: var(--link-hover);
+}
+h2 i, h3 i {
+    display: inline-block; /* Necessário para transform */
+    transition: transform var(--transition-medium), color var(--transition-medium);
+}
+
+
+/* Estilo Padrão para Parágrafos */
+p {
+    margin-bottom: 1.4em;
+    font-weight: var(--font-weight-regular);
+    max-width: 68ch; /* Largura ideal para leitura */
+    margin-left: auto; /* Centraliza o bloco de texto POR PADRÃO */
+    margin-right: auto; /* Centraliza o bloco de texto POR PADRÃO */
+    text-align: justify; /* Justifica o texto POR PADRÃO */
+    hyphens: auto; /* Habilita hifenização se necessário */
+}
+
+/* --- EXCEÇÕES DE ALINHAMENTO PARA PARÁGRAFOS ESPECÍFICOS --- */
+
+/* Introdução (index.html): Mantém centralizado */
+body#page-index article > p {
+     text-align: center;
+     hyphens: none;
+     max-width: 65ch;
+}
+
+/* Ruptura (ruptura.html): Primeiro parágrafo alinhado à esquerda */
+body#page-ruptura article > p:first-of-type {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0; /* Garante que não centralize */
+    max-width: 75ch; /* Pode ajustar, mas mantém um limite */
+}
+
+/* Características (caracteristicas.html): Primeiro parágrafo alinhado à esquerda */
+body#page-caracteristicas article > p:first-of-type {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0; /* Garante que não centralize */
+    max-width: 75ch; /* Pode ajustar, mas mantém um limite */
+}
+/* Características: Parágrafo ANTES do carrossel (o segundo) - Mantém centralizado */
+body#page-caracteristicas article > p:nth-of-type(2) {
+    text-align: center;
+    hyphens: none;
+    margin-left: auto; /* Garante centralização */
+    margin-right: auto; /* Garante centralização */
+}
+/* Características: Parágrafo DEPOIS do carrossel - Mantém centralizado */
+.carousel + p {
+    text-align: center;
+    margin-top: 1.5em;
+    max-width: 70ch;
+    margin-left: auto;
+    margin-right: auto;
+    clear: both;
+}
+
+/* Eça (eca_de_queiros.html): TODOS os parágrafos alinhados à esquerda */
+body#page-eca article p { /* Regra geral para TODOS <p> dentro do article nesta página */
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0; /* Garante que não centralize */
+    max-width: 75ch; /* Mantém um limite de largura para leitura */
+    hyphens: auto;
+}
+/* Se imagem flutuante ainda existir, garantir que o texto ao lado não tenha max-width */
+body#page-eca article img.float-left + p,
+body#page-eca article img.float-left + p + p { /* Seleciona os primeiros parágrafos após a imagem flutuante */
+    max-width: none;
+}
+
+
+/* Fontes (fontes.html): Primeiro parágrafo alinhado à esquerda */
+body#page-fontes article > p:first-of-type {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0; /* Garante que não centralize */
+    max-width: 75ch;
+}
+
+/* --- FIM DAS EXCEÇÕES DE ALINHAMENTO DE PARÁGRAFOS --- */
+
+
+a {
+    color: var(--secondary-red);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    position: relative; /* Para o pseudo-elemento ::after */
+    transition: color var(--transition-fast);
+    word-break: break-word; /* Quebra palavras longas (URLs) */
+    overflow-wrap: break-word; /* Alternativa/fallback para word-break */
+}
+
+/* Melhoria Geral: Animação de sublinhado no hover */
+a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -2px; /* Posição abaixo do texto */
+    left: 0;
+    background-color: var(--link-hover);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+a:hover {
+    color: var(--link-hover);
+    text-decoration: none; /* Remove sublinhado padrão */
+}
+
+a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+a:focus {
+    outline: 2px solid transparent; /* Remove outline padrão no focus */
+    text-decoration: none; /* Garante que não haja sublinhado no focus */
+}
+
+/* Acessibilidade: Estilo de Foco Visível */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid var(--accent-red);
+    outline-offset: 2px; /* Aumenta o espaçamento */
+    box-shadow: none;
+    border-radius: 3px; /* Adiciona leve arredondamento */
+}
+/* Remove o sublinhado animado no focus-visible para não conflitar com o outline */
+a:focus-visible::after {
+    display: none;
+}
+
+
+/* --- Layout Principal --- */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Cabeçalho e Navegação --- */
+header {
+    background-color: var(--primary-brown);
+    color: var(--light-text);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: padding var(--transition-medium), background-color var(--transition-medium);
+}
+
+/* Header Shrink Effect */
+header.header-scrolled {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    background-color: rgba(111, 78, 55, 0.98); /* Leve transparência */
+    backdrop-filter: blur(5px); /* Efeito blur (suporte variado) */
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+header.header-scrolled h1 {
+    font-size: 1.5rem; /* Reduz tamanho no scroll */
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: var(--light-text);
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: var(--font-weight-medium);
+    transition: font-size var(--transition-medium); /* Transição para shrink */
+}
+
+/* Navegação Principal */
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    /* flex-wrap: wrap; */ /* REMOVIDO para forçar uma linha */
+}
+
+header nav ul li a {
+    color: var(--light-text);
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-regular);
+    padding: 0.6em 1em;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+    text-decoration: none;
+    border: 1px solid transparent;
+    white-space: nowrap; /* Evita quebra de texto dentro do link */
+}
+
+header nav ul li a i {
+    font-size: 0.9em;
+    line-height: 1;
+    transition: transform var(--transition-fast);
+}
+
+header nav ul li a:hover,
+header nav ul li a:focus,
+header nav ul li a.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    text-decoration: none;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+/* Melhoria Geral: Leve scale no hover do item de menu */
+header nav ul li a:hover {
+    transform: translateY(-2px);
+}
+header nav ul li a:hover i {
+    transform: scale(1.1);
+}
+
+
+/* Botão Hamburger */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--light-text);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: transform var(--transition-fast);
+}
+.hamburger:hover {
+    transform: scale(1.1);
+}
+
+/* --- Conteúdo Principal --- */
+main {
+    flex-grow: 1;
+    padding: 55px 0;
+}
+
+main .container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Seção Integrantes */
+.team-intro {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 6px 22px rgba(75, 56, 50, 0.08);
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 100%;
+}
+
+.team-intro h2 {
+    margin-top: 0;
+    margin-bottom: 1.8em;
+    border-bottom: none;
+}
+
+.team-members {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 35px;
+}
+
+.team-member {
+    text-align: center;
+    max-width: 150px;
+}
+
+.team-member-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 10px auto;
+    border: 3px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+}
+
+.team-member-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.team-member-name {
+    font-weight: var(--font-weight-medium);
+    color: var(--primary-brown);
+    font-size: 1rem;
+    margin-bottom: 0;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+    hyphens: none;
+}
+
+
+/* Artigos */
+article {
+    background-color: var(--card-bg);
+    padding: 45px 50px;
+    border-radius: 8px;
+    box-shadow: 0 6px 22px rgba(75, 56, 50, 0.08);
+    margin-bottom: 45px;
+    max-width: 100%;
+}
+
+article h2 i {
+    margin-right: 0.5em;
+    font-size: 0.8em;
+    color: var(--secondary-red);
+}
+
+/* --- Imagens --- */
+img.featured-image, img.float-left {
+    transition: opacity 0.7s var(--transition-slow),
+                transform 0.6s var(--transition-slow),
+                filter 0.35s var(--transition-medium),
+                box-shadow 0.35s var(--transition-medium);
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
+    display: block;
+}
+
+img.featured-image {
+    width: 100%;
+    max-width: 750px;
+    margin-bottom: 35px;
+    margin-left: auto;
+    margin-right: auto;
+}
+body#page-caracteristicas img.featured-image {
+    max-width: 400px;
+}
+
+img.featured-image:hover {
+    transform: scale(1.02) !important;
+    filter: brightness(1.05);
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.1);
+}
+
+img.float-left {
+    float: left;
+    width: 40%;
+    max-width: 320px;
+    min-width: 180px;
+    margin-right: 35px;
+    margin-bottom: 15px;
+}
+img.float-left:hover {
+    transform: scale(1.02) !important;
+    filter: brightness(1.05);
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.1);
+}
+
+body#page-eca h3[style*="clear: both"] {
+    clear: both;
+    padding-top: 15px;
+    margin-top: 1.8em;
+}
+
+hr.intro-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1.5em auto 2.5em auto;
+    width: 50%;
+    clear: both;
+}
+hr.intro-divider + h3 {
+    margin-top: 0;
+}
+
+
+/* --- Estilo de Listas --- */
+article ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.8em;
+    max-width: 75ch; /* Mantém largura controlada */
+    /* Alinhamento Padrão: Bloco da lista centralizado */
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Eça: Centralizar o bloco da lista (já é o padrão) */
+/* body#page-eca ul { margin-left: auto; margin-right: auto; } */
+
+/* Fontes: Alinhar bloco da lista à esquerda */
+body#page-fontes article ul {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 80ch; /* Ou ajuste conforme necessário */
+}
+
+article ul li {
+    /* Estilos base de lista (já definidos acima com animação) */
+    text-align: left; /* Garante alinhamento interno */
+}
+
+article ul li::before {
+    content: '\f054'; /* Font Awesome check icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0.2em;
+    top: 0.4em; /* Ajustar conforme necessário */
+    color: var(--accent-red);
+    font-size: 0.8em;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    background-color: transparent;
+    padding: 0.1em;
+    border-radius: 3px;
+    width: 1.2em;
+    text-align: center;
+}
+
+/* Fontes: Remover ícone e padding esquerdo dos itens da lista */
+body#page-fontes article ul li {
+    padding-left: 0; /* Remove padding para ícone */
+}
+body#page-fontes article ul li::before {
+    content: none; /* Remove o ícone */
+}
+
+
+/* Hover Listas */
+article ul li:hover {
+    background-color: var(--hover-bg-light);
+    transform: translateX(5px) !important;
+}
+article ul li:hover::before {
+    color: var(--link-hover);
+    transform: scale(1.1) !important;
+}
+/* Hover na lista de fontes (sem ícone) */
+body#page-fontes article ul li:hover {
+    background-color: var(--hover-bg-light);
+    /* Opcional: Adicionar outro feedback visual se desejar */
+}
+
+
+/* Lista Highlight (Eça Obras) */
+article ul.highlight-list {
+    margin-bottom: 3em;
+    max-width: 80ch;
+}
+article ul.highlight-list li {
+    border-left: 4px solid var(--accent-red);
+    padding-left: 1.5em; /* Mantém padding para a borda */
+    margin-left: 0;
+    background-color: #fbf6f3;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    padding-right: 1em;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1.4em;
+    transition: background-color var(--transition-fast),
+                border-left-color var(--transition-fast),
+                transform var(--transition-fast),
+                opacity 0.4s var(--transition-medium); /* Adiciona transição de opacidade */
+}
+
+article ul.highlight-list li::before {
+    content: none; /* Garante que não haja ícone */
+}
+article ul.highlight-list li:hover {
+    background-color: #f8f0ea;
+    border-left-color: var(--link-hover);
+    transform: translateX(5px) !important;
+}
+
+/* Linha Separadora (Eça) */
+hr.section-divider {
+    border: none;
+    border-top: 1px solid var(--separator-color);
+    margin: 2.8em auto;
+    width: 60%;
+    clear: both;
+}
+hr.section-divider + h3 {
+     margin-top: 0;
+     padding-top: 0;
+}
+
+
+/* --- Rodapé --- */
+/* Removido */
+
+
+/* --- Carrossel (caracteristicas.html) --- */
+.carousel {
+    position: relative;
+    overflow: hidden;
+    background-color: #F8F0E9;
+    padding: 40px 20px;
+    border-radius: 8px;
+    margin: 40px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 50px;
+    max-width: 900px;
+    cursor: grab;
+}
+.carousel.is-dragging {
+    cursor: grabbing;
+}
+
+.carousel-slides-container {
+    position: relative;
+    height: auto;
+    min-height: 200px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    transition: height 0.4s ease-in-out;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    padding: 10px 40px;
+    text-align: center;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+    transition: opacity 0.5s ease-in-out, visibility 0s 0s;
+    pointer-events: auto;
+}
+.carousel-slide.active a,
+.carousel-slide.active button {
+    pointer-events: auto;
+}
+
+
+.carousel-slide i.slide-icon {
+    font-size: 2.5rem;
+    color: var(--primary-brown);
+    margin-bottom: 15px;
+    display: block;
+    transition: transform var(--transition-medium);
+}
+/* Melhoria: Leve animação no ícone do slide ativo */
+.carousel-slide.active i.slide-icon {
+    transform: scale(1.05);
+}
+
+.carousel-slide h3 {
+    color: var(--primary-brown);
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.carousel-slide p {
+    color: var(--dark-text);
+    font-size: 1rem;
+    margin-bottom: 0;
+    max-width: 65ch;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    right: 15px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.carousel-button {
+    background-color: rgba(75, 56, 50, 0.6);
+    color: var(--light-text);
+    border: none;
+    font-size: 1.2rem;
+    padding: 10px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color var(--transition-fast),
+                transform var(--transition-fast),
+                box-shadow var(--transition-fast);
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.carousel-button:hover,
+.carousel-button:focus {
+    background-color: rgba(75, 56, 50, 0.9);
+    transform: scale(1.1) translateY(-1px); /* Leve elevação */
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.carousel-button:active {
+    transform: scale(0.95);
+    background-color: rgba(75, 56, 50, 1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2); /* Sombra interna */
+}
+
+
+.carousel-pagination {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.pagination-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: rgba(75, 56, 50, 0.35);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    border: none;
+    padding: 0;
+}
+.pagination-dot:hover {
+    background-color: rgba(75, 56, 50, 0.6);
+    transform: scale(1.1);
+}
+
+.pagination-dot.active {
+    background-color: var(--primary-brown);
+    transform: scale(1.2);
+}
+.pagination-dot:active {
+    transform: scale(1.05);
+}
+
+
+/* --- Timeline Slider (ruptura.html) --- */
+.timeline-slider {
+    position: relative;
+    overflow: visible;
+    padding: 20px 0 30px 0;
+    margin: 40px 0;
+    cursor: grab;
+    max-width: 100%;
+}
+.timeline-slider.is-dragging {
+    cursor: grabbing;
+}
+
+.timeline-track-container {
+    overflow: hidden;
+    margin: 0;
+    position: relative;
+    min-height: 220px;
+    background-color: #fdfaf8;
+    border-radius: 8px;
+    padding: 30px 0;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    transition: min-height 0.4s ease-in-out;
+}
+
+.timeline-track {
+    position: relative;
+    display: flex;
+    height: 100%;
+    margin-bottom: 0;
+    gap: var(--timeline-gap);
+    padding-left: calc(var(--timeline-gap) / 2);
+    padding-right: calc(var(--timeline-gap) / 2);
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    will-change: transform;
+}
+
+.timeline-step {
+    min-height: 180px;
+    flex: 0 0 calc(100% - var(--timeline-gap));
+    opacity: 1;
+    transform: scale(1);
+    transition: none;
+    position: relative;
+    width: 100%;
+    z-index: auto;
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 25px;
+    pointer-events: none;
+}
+.timeline-step a,
+.timeline-step button {
+    pointer-events: auto;
+}
+
+
+.timeline-step h3 {
+    margin-top: 0;
+    margin-bottom: 0.8em;
+    color: var(--primary-brown);
+    font-size: 1.2rem;
+}
+.timeline-step h3 i, .timeline-step p i {
+    margin-right: 0.6em;
+    color: var(--accent-red);
+    font-size: 0.9em;
+    width: 1.2em;
+    text-align: center;
+    display: inline-block;
+    transition: transform var(--transition-medium);
+}
+/* Melhoria: Hover nos ícones dos steps */
+.timeline-step:hover h3 i, .timeline-step:hover p i {
+    transform: scale(1.1);
+}
+
+
+.timeline-step p {
+    font-size: 0.95rem;
+    max-width: none;
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+    hyphens: none;
+    line-height: 1.7;
+    margin-bottom: 0.5em;
+}
+.timeline-step p:last-child {
+    margin-bottom: 0;
+}
+
+
+.timeline-progress {
+    position: relative;
+    width: calc(100% - 60px);
+    margin: 25px auto 0 auto;
+    height: 4px;
+    background-color: var(--timeline-line);
+    border-radius: 2px;
+}
+
+.timeline-dots {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    padding: 0;
+    height: 100%;
+    pointer-events: none;
+}
+
+.timeline-dot-wrapper {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: auto;
+    transition: transform var(--transition-fast);
+}
+.timeline-dot-wrapper.active .timeline-date {
+    color: var(--timeline-date-active-color);
+    font-weight: var(--font-weight-medium);
+    opacity: 1;
+    transform: translateY(2px) scale(1.05);
+}
+.timeline-dot-wrapper:not(.active) .timeline-date {
+    opacity: 0.7;
+}
+
+
+.timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--timeline-dot-bg);
+    border: 2px solid var(--timeline-dot-border);
+    cursor: pointer;
+    transition: background-color var(--transition-fast),
+                border-color var(--transition-fast),
+                transform var(--transition-fast);
+    position: relative;
+    padding: 0;
+    z-index: 1;
+    margin-bottom: 4px;
+}
+.timeline-dot:hover {
+    transform: scale(1.2);
+}
+.timeline-dot.active {
+    background-color: var(--timeline-dot-active-bg);
+    border-color: var(--timeline-dot-active-bg);
+    transform: scale(1.3);
+}
+.timeline-dot:active {
+    transform: scale(1.1);
+}
+
+.timeline-date {
+    font-size: 0.75rem;
+    color: var(--timeline-date-color);
+    margin-top: 4px;
+    white-space: nowrap;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 2px;
+    transition: color var(--transition-medium),
+                font-weight var(--transition-medium),
+                opacity var(--transition-medium),
+                transform var(--transition-medium);
+}
+
+
+/* --- Responsividade (Ajustes nos breakpoints existentes) --- */
+
+@media (max-width: 992px) {
+    .container { max-width: 90%; }
+    h1 { font-size: 2.2rem; }
+    header.header-scrolled h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.6rem; }
+    article, .team-intro { padding: 35px; }
+
+    img.featured-image { max-width: 700px; }
+    body#page-caracteristicas img.featured-image { max-width: 380px; }
+    img.float-left { width: 45%; max-width: 300px; margin-right: 30px; }
+
+    .carousel { padding: 30px 20px; }
+    .timeline-track-container { padding: 25px 0; }
+    .timeline-track { gap: 20px; padding-left: 10px; padding-right: 10px; }
+    :root { --timeline-gap: 20px; }
+    .timeline-step { flex-basis: calc(100% - 20px); padding: 0 15px; }
+
+    /* Ajuste alinhamento esquerdo responsivo */
+    body#page-ruptura article > p:first-of-type,
+    body#page-caracteristicas article > p:first-of-type,
+    body#page-eca article p, /* Aplica a todos em Eça */
+    body#page-fontes article > p:first-of-type {
+        margin-right: auto; /* Centraliza bloco se houver espaço */
+    }
+    article ul { max-width: 90%; } /* Ajusta largura da lista */
+    body#page-fontes article ul { margin-left: 0; margin-right: auto; } /* Mantém fontes à esquerda */
+}
+
+@media (max-width: 768px) {
+    html { font-size: 15px; }
+    h1 { font-size: 2rem; }
+    header.header-scrolled h1 { font-size: 1.3rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.2rem; }
+
+    header .container { position: relative; }
+    header nav { position: absolute; top: 100%; left: 0; right: 0; background-color: var(--primary-brown); max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out, padding 0.5s ease-out; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); padding: 0 20px; }
+    header nav.nav-active { max-height: 500px; padding: 15px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    header nav ul { flex-direction: column; gap: 0.5rem; width: 100%; } /* Volta a ser coluna */
+    header nav ul li a { padding: 0.8em 1em; justify-content: flex-start; border: none; background-color: transparent; }
+    header nav ul li a:hover, header nav ul li a:focus, header nav ul li a.active { background-color: rgba(255, 255, 255, 0.1); color: #fff; transform: none; /* Remove hover Y */ }
+    header nav ul li a:hover i { transform: none; } /* Remove hover icon scale */
+    .hamburger { display: block; }
+
+    article, .team-intro { padding: 30px 25px; }
+    p { max-width: 90%; } /* Ajuste geral para telas menores */
+
+    img.float-left { float: none; width: 70%; max-width: 250px; display: block; margin: 0 auto 25px auto; }
+    img.featured-image { max-width: 85%; }
+    body#page-caracteristicas img.featured-image { max-width: 70%; }
+
+    /* Garante que os parágrafos específicos mantenham alinhamento esquerdo */
+     body#page-ruptura article > p:first-of-type,
+     body#page-caracteristicas article > p:first-of-type,
+     body#page-eca article p, /* Aplica a todos em Eça */
+     body#page-fontes article > p:first-of-type {
+         text-align: left;
+         margin-left: 0;
+         margin-right: auto; /* Permite centralizar o bloco se houver espaço */
+         max-width: 90%; /* Ajusta max-width */
+     }
+     /* Parágrafos que devem permanecer centralizados */
+     body#page-index article > p,
+     body#page-caracteristicas article > p:nth-of-type(2),
+     .carousel + p {
+        text-align: center; /* Força centralização em telas menores se necessário */
+        margin-left: auto;
+        margin-right: auto;
+     }
+
+     article ul { max-width: 95%; margin-left: auto; margin-right: auto;} /* Centraliza bloco da lista */
+     body#page-fontes article ul { margin-left: 0; margin-right: auto; } /* Mantém fontes à esquerda */
+
+
+    .carousel { padding: 30px 15px 50px 15px; margin-left: 0; margin-right: 0; max-width: none; }
+    .carousel-nav { left: 10px; right: 10px; }
+    .carousel-button { width: 35px; height: 35px; font-size: 1rem; padding: 8px 10px; }
+    .carousel-slides-container { min-height: 280px; }
+    .carousel-slide { padding-left: 15px; padding-right: 15px; }
+    .carousel-slide i.slide-icon { font-size: 2rem; }
+    .carousel-slide h3 { font-size: 1.2rem; }
+    .carousel-slide p { font-size: 0.95rem; max-width: 90%; }
+
+    .team-members { gap: 20px; }
+    .team-member { max-width: 120px; }
+    .team-member-img { width: 80px; height: 80px; }
+
+    .timeline-slider { padding: 10px 0 40px 0; }
+    .timeline-track-container { margin: 0; min-height: 220px; padding: 20px 0; }
+    .timeline-progress { width: calc(100% - 40px); }
+    .timeline-dot { width: 12px; height: 12px; }
+    .timeline-date { font-size: 0.7rem; }
+    .timeline-track { gap: 15px; padding-left: 7.5px; padding-right: 7.5px; }
+    :root { --timeline-gap: 15px; }
+    .timeline-step { flex-basis: calc(100% - 15px); padding: 0 10px; }
+}
+
+@media (max-width: 480px) {
+    html { font-size: 14px; }
+    body { line-height: 1.7; }
+    .container { width: 95%; padding: 0 15px; }
+    header h1 { font-size: 1.5rem; text-align: left; flex-grow: 1; margin-right: 40px; }
+    header.header-scrolled h1 { font-size: 1.2rem; }
+    article, .team-intro { padding: 25px 20px; }
+    h2 { font-size: 1.4rem; }
+    h3 { font-size: 1.1rem; }
+    p { max-width: 95%; }
+
+    img.featured-image, img.float-left { max-width: 100%; width: 100%; margin-left: auto; margin-right: auto; float: none; /* Garante que não flutue */ }
+    body#page-caracteristicas img.featured-image { max-width: 80%; }
+
+    .team-members { gap: 15px; }
+    .team-member { max-width: 100px; }
+    .team-member-img { width: 70px; height: 70px; }
+    .team-member-name { font-size: 0.9rem; }
+
+    .carousel-slides-container { min-height: 320px; }
+    .carousel-slide p { font-size: 0.9rem; }
+    .carousel-nav { left: 5px; right: 5px; }
+
+    .timeline-track-container { min-height: 280px; padding: 15px 0; }
+    .timeline-step p { font-size: 0.9rem;}
+    .timeline-track { gap: 10px; padding-left: 5px; padding-right: 5px; }
+     :root { --timeline-gap: 10px; }
+    .timeline-step { flex-basis: calc(100% - 10px); padding: 0 5px;}
+    .timeline-date { font-size: 0.65rem; }
+    .timeline-progress { width: calc(100% - 30px); }
+
+    /* Garante alinhamento esquerdo total em telas muito pequenas */
+    body#page-ruptura article > p:first-of-type,
+    body#page-caracteristicas article > p:first-of-type,
+    body#page-eca article p, /* Aplica a todos em Eça */
+    body#page-fontes article > p:first-of-type {
+        margin-left: 0;
+        margin-right: 0; /* Ocupa toda a largura disponível */
+        max-width: none;
+        text-align: left;
+    }
+    article ul { max-width: none; margin-left: 0; margin-right: 0; } /* Lista ocupa largura */
+    body#page-fontes article ul { margin-left: 0; margin-right: 0; } /* Mantém fontes à esquerda */
+}
